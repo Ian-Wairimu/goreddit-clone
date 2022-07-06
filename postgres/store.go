@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
-	"wairimuian.com/GoReddit"
 )
 
 func NewStore(dataSourceName string) (*Store, error) {
@@ -16,14 +15,20 @@ func NewStore(dataSourceName string) (*Store, error) {
 		return nil, fmt.Errorf("error connecting to database: %w", err)
 	}
 	return &Store{
-		ThreadStore:  NewThreadStore(db),
-		PostStore:    NewPostStore(db),
-		CommentStore: NewCommentStore(db),
+		ThreadStore: &ThreadStore{
+			DB: db,
+		},
+		PostStore: &PostStore{
+			DB: db,
+		},
+		CommentStore: &CommentStore{
+			DB: db,
+		},
 	}, nil
 }
 
 type Store struct {
-	GoReddit.ThreadStore
-	GoReddit.PostStore
-	GoReddit.CommentStore
+	*ThreadStore
+	*PostStore
+	*CommentStore
 }

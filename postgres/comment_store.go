@@ -7,12 +7,6 @@ import (
 	"wairimuian.com/GoReddit"
 )
 
-func NewCommentStore(db *sqlx.DB) *CommentStore {
-	return &CommentStore{
-		DB: db,
-	}
-}
-
 type CommentStore struct {
 	*sqlx.DB
 }
